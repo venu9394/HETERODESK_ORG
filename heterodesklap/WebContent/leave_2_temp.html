@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<script>
+
+function formSubmit(){
+	
+	
+	document.forms[0].action="leave_l2.jsp";
+	document.forms[0].submit();
+}
+</script>	
+<script>	
+function LeaveBalLoad(){
+	var formData = {Routing:"LEAVE_BALANCE_AJX_MAN"};
+	try{
+	   $.ajax({
+	   type: "post",
+	   url: "Version2",
+	   data: formData,
+	   success: function(responseData, textStatus, jqXHR) {
+			try{
+			       var Data=JSON.parse(responseData);
+			       alert(Data);
+			       var tempjason="";
+			       var CALLNAME="";
+			       var LopCon="0";
+			         
+			}catch(err){
+				 document.getElementById("Responce_Message").innerHTML=err;
+			}  
+	   },
+       error: function(jqXHR, textStatus, errorThrown) {
+            console.log(errorThrown);
+            alert(errorThrown);
+       }
+	   }
+	}catch(err){
+		alert(err);
+		
+	}
+	
+	}
+</script>	
+	
+	
+</head>
+<body >
+<form action="NewJoinees?Routing=HOLIDAYS" method="Post" >
+ <span align='center' style='color:blue;font:italic'></span>
+ <div align='center' style='margen-top:80px;'>
+ 
+  <table style='background-color:skyblue'>
+  <tr style='background-color:orange'><th colspan='4'>Apply Manual Leave</th></tr>
+    <tr><th colspan='4'>&nbsp;</th></tr>
+   <tr><td>EmployeeID</td><td></td><td> <input type='text' value='' name='empid'></td><td>&nbsp;</td></tr>
+   <tr><td>Payperiod</td><td></td><td> <input type='text' value='' name='payperiod'></td><td>&nbsp;</td></tr>
+  
+   <tr><td colspan='4' align='center'> <input type='button' onclick='formSubmit();' value='Submit' style='background-color:orange'></td></tr>
+   
+  </table>
+  
+  
+ <!--  
+  <img src="assets/images/load1.gif" width='100%' height='100%' />
+  -->
+ </div>
+</form>
+</body>
+</html>

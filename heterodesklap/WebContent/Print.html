@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src="https://apis.google.com/js/client.js"></script>
+
+
+<style is="custom-style">
+   
+    
+    #buttons {
+  flex: var(--layout-flex-5_-_flex);
+        text-align: end;
+        user-select: none;
+}
+
+paper-icon-button {
+  -webkit-margin-end: 0px;
+}
+
+viewer-toolbar-dropdown {
+  -webkit-margin-end: 0px;
+}
+    /* Uncomment this as workaround */
+    /*
+    paper-icon-button[disabled] {
+      color:red;
+    }*/
+  </style>
+<script>
+
+window.addEventListener('load', auth);
+function auth() {
+  gapi.auth.authorize({
+    'client_id': 'YOUR_GOOGLE_API_CLIENT_ID',
+    'scope': 'https://www.googleapis.com/auth/cloudprint',
+    'immediate': true
+  });
+
+}
+
+function print() {
+   alert(1);
+ try{
+  var xhr = new XMLHttpRequest();
+  var q = new FormData()
+  q.append('xsrf', gapi.auth.getToken().access_token);
+  q.append('printerid', 'YOUR_GOOGLE_CLOUD_PRINTER_ID');
+  q.append('jobid', '');
+  q.append('title', 'silentPrintTest');
+  q.append('contentType', 'url');
+  q.append('content',"http://iconnect.heterohcl.com/EmployeeAuth/download/files_mydesk/20314/201803-PAYSLIP-20314.pdf");
+  q.append('ticket', '{ "version": "1.0", "print": {}}');
+
+
+  xhr.open('POST', 'https://www.google.com/cloudprint/submit');
+  xhr.setRequestHeader('Authorization', 'Bearer ' + gapi.auth.getToken().access_token);
+  xhr.onload = function () {
+    try {
+      var r = JSON.parse(xhr.responseText);
+      alert(r.message);
+    } catch (e) {
+      console.log(xhr.responseText)
+    }
+  }
+
+  xhr.send(q)
+ }catch(err){
+   alert(err.message);
+ }
+}
+
+public static final String JS_DIRECT_PRINT = "this.print({bUI: false, bSilent: true, bShrinkToFit: true});\r";
+
+</script>
+</head>
+<body>
+<input type='button' onclick='print()'>
+<p>This is a paragraph.</p>
+<p>This is a paragraph.</p>
+<p>This is a paragraph.</p>
+<input type="button"  onclick="pdfDoc.printAll();" />
+
+<embed id="pdfDoc" src="http://iconnect.heterohcl.com/EmployeeAuth/download/files_mydesk/20314/201803-PAYSLIP-20314.pdf #toolbar=0&navpanes=0&scrollbar=0 " width="500" height="375"
+top-toolbar-height="0" >
+
+<!-- <embed id="pdfDoc" style="position:absolute;z-index:-1;" name="pdfDoc" classid="clsid:CA8A9780-280D-11CF-A24D-444553540000" width="900px" height="100%">
+        <param name="SRC" value="http://iconnect.heterohcl.com/EmployeeAuth/download/files_mydesk/20314/201803-PAYSLIP-20314.pdf" />
+    </embed> -->
+
+
+
+</body>
+</html>
