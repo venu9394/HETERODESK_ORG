@@ -1248,7 +1248,7 @@ System.out.println("EnableDays--->"+EnableDays);
 							Doj.put("DAREQ" ,  Att_Req.get(Res.getString(1)).toString());
 							Doj.put("DAF" , "none");
 							
-							System.out.println("9");
+							System.out.println("9 ~~" +Res.getString("DAY").toString());
 							//'PROCESSED','APPROVED','REJECT'
 							
 							
@@ -1289,10 +1289,18 @@ System.out.println("EnableDays--->"+EnableDays);
 							 Ded_Hours=Ded_Hours-Main_Deduction_hours;
 							}else if(!Res.getString("HALF_DAY").toString().equalsIgnoreCase("NA") && Main_Deduction_hours>0){
 								
-								Doj.put("DAF" , " ");
+								//Doj.put("DAF" , " ");
+								
+								if(Att_Req.get(Res.getString("DAY"))!=null) {
+									
+									Doj.put("DAF" , "none");
+								}else {
+									Doj.put("DAF" , " ");
+								}
+								
 							}
 							
-							System.out.println("14");
+							System.out.println("14 ~~" +Res.getString("DAY"));
 							
 						}
 						

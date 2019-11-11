@@ -140,8 +140,8 @@ public class New_LeaveManagement extends HttpServlet {
 		GetDbData DataObj=new GetDbData();
 		
 		try {
-			 conn =DataSource_Cls.getInstance().getConnection();
-			//conn=(java.sql.Connection)session.getAttribute("ConnectionObj");
+			 //conn =DataSource_Cls.getInstance().getConnection();
+			conn=(java.sql.Connection)session.getAttribute("ConnectionObj");
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -571,6 +571,7 @@ public class New_LeaveManagement extends HttpServlet {
 		reason=request.getParameter("reason");
 		*/
 		
+	   System.out.println("From_toDaysCal:: " +From_toDaysCal.toString());
 		Res=null;
        try {
 			Res=(ResultSet)DataObj.FetchData_Emp_DOB(From_toDaysCal.toString(), "Leave_Quota", Res ,conn);
@@ -633,6 +634,7 @@ public class New_LeaveManagement extends HttpServlet {
  // currently not used
        StringBuffer  PendingLeave= new StringBuffer();
        StringBuffer  PendingApprovals= new StringBuffer();
+       
        PendingLeave.append(" SELECT count(*) FROM hclhrm_prod_others.tbl_emp_attn_req  ");
        PendingLeave.append(" WHERE ");
        PendingLeave.append(" EMPLOYEEID in ("+username+") AND ");
@@ -1344,9 +1346,29 @@ public class New_LeaveManagement extends HttpServlet {
 			
 			
 			
+			System.out.println("MAX_LEAVE_ ::" +MAX_LEAVE_);
+			
+			System.out.println("maxleaveflag ::" +maxleaveflag);
+			
+			if(Leave_Type.equalsIgnoreCase("CL")) {
+				
+				if(LeaveCount>3) {
+					maxleaveflag=false;
+				}else if(LeaveCount<=3){
+					LeaveCount=CL_DUMM_LEAV;
 				if(DayMode==0 && MAX_LEAVE_<LeaveCount){
 					maxleaveflag=false;
 				}
+				
+			}
+			}else{
+				
+				if(DayMode==0 && MAX_LEAVE_<LeaveCount){
+					maxleaveflag=false;
+				}
+				
+			}
+				
 				
 				
 				System.out.println("MAX_LEAVE_ ::" +MAX_LEAVE_);
@@ -1357,6 +1379,9 @@ public class New_LeaveManagement extends HttpServlet {
 				System.out.println("cl_leave_validation ::" +cl_leave_validation);
 				
 				System.out.println("maxleaveflag ::" +maxleaveflag);
+				
+				
+				System.out.println("LeaveCount ::" +LeaveCount);
 				
 				
 				
@@ -1670,7 +1695,8 @@ try{
 			
 			if(User_Auth_auth==0){
 				
-				Atten_Req_Message="your are Inactive employee";
+				//Atten_Req_Message="your are Inactive employee";
+				Atten_Req_Message="Please logout & try again / contact admin..!";
 				
 			}else if (Evvalid==true && Leave_Type.equalsIgnoreCase("EL")){
 				
@@ -1737,16 +1763,19 @@ try{
 				if(ps!=null){
 					ps.close();
 				}
-				if(conn!=null){
-					boolean  r=false;
-					try{
-					  r=DataSource_Cls.getInstance().ConnectionClose(conn);
-					}catch(Exception err){
-						System.out.println("Connection Closing Status"+ err);
-					}
-					System.out.println("Connection Closing Status"+ r);
-					
+				
+				if(Res!=null){
+					Res.close();
 				}
+				
+				/*
+				 * if(conn!=null){ boolean r=false; try{
+				 * r=DataSource_Cls.getInstance().ConnectionClose(conn); }catch(Exception err){
+				 * System.out.println("Connection Closing Status"+ err); }
+				 * System.out.println("Connection Closing Status"+ r);
+				 * 
+				 * }
+				 */
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1766,3 +1795,4 @@ try{
 	 
 	}
 }
+
