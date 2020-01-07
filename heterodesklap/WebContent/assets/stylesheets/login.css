@@ -1,11 +1,11 @@
-/*sign in*/
+
 body{
 	background-color:#fff;
 	margin:0;
 	padding:0;
 	
 }
-/* Sign Screens - Wrappers */
+Sign Screens - Wrappers
 .body-sign {
 	display: table;
 	height: 100vh;
@@ -39,11 +39,11 @@ body{
 	background: #FFF;
 	border-top: 5px solid #0088cc;
 	border-radius: 5px 0 5px 5px;
-	box-shadow: 0 10px 20px #000;
+	box-shadow: 0 10px 20px #04040480;
 	padding: 33px 33px 15px;
 }
 
-/* Sign Screens - Elements */
+Sign Screens - Elements
 .body-sign .input-group-icon .input-group-addon i {
 	width: 14px;
 }
@@ -88,3 +88,26 @@ body{
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
 	border-radius: 5px;
 }
+
+
+
+/* New css */
+
+.m_0{
+	margin: 0!important;
+}
+
+.frgt_pswd a{
+	padding: 14px 8px;
+	padding-bottom: 8px;
+    display: inline-block;
+    color: #0c85c1; 
+    font-size: 13px;
+    opacity: .75;
+    text-decoration: underline!important;
+    margin-left: 10%;
+}
+.frgt_pswd a b {
+    font-weight: 600;
+}
+

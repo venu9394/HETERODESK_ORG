@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>MyDesk</display-name>
   <welcome-file-list>
     <welcome-file>login.html</welcome-file>
@@ -84,18 +84,6 @@
     <servlet-name>ChangePassword</servlet-name>
     <url-pattern>/ChangePassword</url-pattern>
   </servlet-mapping>
-  
- <!-- <servlet>
-    <description></description>
-    <display-name>LeaveManagement</display-name>
-    <servlet-name>LeaveManagement</servlet-name>
-    <servlet-class>com.hhcdesk.service.LeaveManagement</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>LeaveManagement</servlet-name>
-    <url-pattern>/LeaveManagement</url-pattern>
-  </servlet-mapping> -->
-  
   <servlet>
     <description></description>
     <display-name>LeaveManagement</display-name>
@@ -284,7 +272,6 @@
     <servlet-name>LeaveInfo</servlet-name>
     <url-pattern>/LeaveInfo</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description></description>
     <display-name>PayData_Temp</display-name>
@@ -295,7 +282,6 @@
     <servlet-name>PayData_Temp</servlet-name>
     <url-pattern>/PayData_Temp</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description></description>
     <display-name>Zipdownload</display-name>
@@ -306,8 +292,7 @@
     <servlet-name>Zipdownload</servlet-name>
     <url-pattern>/Zipdownload</url-pattern>
   </servlet-mapping>
-  
-   <servlet>
+  <servlet>
     <description></description>
     <display-name>Location_Search</display-name>
     <servlet-name>Location_Search</servlet-name>
@@ -317,7 +302,6 @@
     <servlet-name>Location_Search</servlet-name>
     <url-pattern>/Location_Search</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description></description>
     <display-name>TDS_caliculation</display-name>
@@ -328,19 +312,16 @@
     <servlet-name>TDS_caliculation</servlet-name>
     <url-pattern>/TDS_caliculation</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description></description>
     <display-name>Attendance_flexi</display-name>
     <servlet-name>Attendance_flexi</servlet-name>
     <servlet-class>com.hhcdesk.service.Attendance_flexi</servlet-class>
   </servlet>
-  
   <servlet-mapping>
     <servlet-name>Attendance_flexi</servlet-name>
     <url-pattern>/Attendance_flexi</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description></description>
     <display-name>Version2</display-name>
@@ -351,7 +332,6 @@
     <servlet-name>Version2</servlet-name>
     <url-pattern>/Version2</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description></description>
     <display-name>FetchAjexService</display-name>
@@ -362,8 +342,7 @@
     <servlet-name>FetchAjexService</servlet-name>
     <url-pattern>/FetchAjexService</url-pattern>
   </servlet-mapping>
-  
-   <servlet>
+  <servlet>
     <description></description>
     <display-name>TDSChallanForm</display-name>
     <servlet-name>TDSChallanForm</servlet-name>
@@ -373,6 +352,14 @@
     <servlet-name>TDSChallanForm</servlet-name>
     <url-pattern>/TDSChallanForm</url-pattern>
   </servlet-mapping>
-  
-  
+  <servlet>
+    <description></description>
+    <display-name>forgotpassword</display-name>
+    <servlet-name>forgotpassword</servlet-name>
+    <servlet-class>com.hhcl.forgotpwd.forgotpassword</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>forgotpassword</servlet-name>
+    <url-pattern>/forgotpassword</url-pattern>
+  </servlet-mapping>
 </web-app>

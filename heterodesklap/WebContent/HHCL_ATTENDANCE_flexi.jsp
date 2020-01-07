@@ -230,6 +230,7 @@ try{
  }
 
  function AttendanceRequest(){
+	 
 	 var date_Temp=document.getElementById("Requ_Date_Temp").value;
 	 var Data_Split="";
 	 var ReQDate="";
@@ -255,11 +256,13 @@ try{
     if(toemail.length <4){
     	
     	document.getElementById("Responce_Message").innerHTML="Invalid Reporting Manager e-mail id please check with HR team";
+    	document.getElementById("Responce_Message_btn").style.display='';
     	return false;
     	
     } else if(message.length < 3){
     	
     	document.getElementById("Responce_Message").innerHTML="Please Enter Request Message";
+    	document.getElementById("Responce_Message_btn").style.display='';
     	return false;
     	
     } 
@@ -269,10 +272,20 @@ try{
 	   var date=document.getElementById("date").value;
 	   var Subject=document.getElementById("Subject").value;
 	   
+	   //blockFunction('Processing');
+	   
 		var formData = {toemail:""+toemail+"",ccemail:""+ccemail+"",Routing:"Att_Request",id:""+ReQDate+"",Subject:""+Subject+"",message:""+message+"",FIN:""+FIN+"",FOUT:""+FOUT+"",TIME:""+TIME+"",RanDm:"<%=nRand%>" };
 		
 	try{
-	    $.ajax({
+		
+		$("#myModal").modal("hide");
+		
+		//myModalpop
+		
+		$("#myModalpop").modal("show");
+		
+		
+		  $.ajax({
 	          type: "post",
 	          url: "Attendance_flexi",
 	          data: formData,
@@ -281,15 +294,25 @@ try{
 	             // var resp=eval(responseData);
 	             try{
 	              document.getElementById("Responce_Message").innerHTML=responseData;
+	            
+	              $("#myModalpop").modal("hide");
+	              $("#myModalpop_data").html(responseData);
+	              $("#myModalpop").modal("show");
+	               setTimeout(UnblockFunction , 2000);   
+	            		  
 	              document.getElementById("Responce_Message_btn").style.display='none';
 	             // alert("date:"+date);
 	              //document.getElementById(""+date+"").innerHTML='Processed';
 	              document.getElementById(date).style.display='none';
-	              document.getElementById(date+"_ST").innerHTML='Processed';
+	              document.getElementById(date+"_ST").innerHTML="<span style='color:red'><B>PROCESSED</B></span>";
 	             		//document.getElementById("date").value='';
 	       	   			//document.getElementById("Subject").value='';
 	       	  			document.getElementById("message").value='';
-	       	  	
+	       	  	 document.getElementById("date").value=""; 
+	       	 	 document.getElementById("Requ_Date").innerHTML="";
+	       	 	 document.getElementById("Responce_Message").innerHTML='';
+	       	 	 document.getElementById("Responce_Message_btn").style.display='none';
+	       	 	 document.getElementById("Requ_Date_Temp").value=""; 
 	             }catch(err){
 	            	 //alert(err);
 	             }
@@ -298,9 +321,24 @@ try{
 	              console.log(errorThrown);
 	              document.getElementById("Responce_Message").innerHTML=errorThrown;
 	              document.getElementById("Responce_Message_btn").style.display='';
+	              document.getElementById(date+"_ST").innerHTML="<span style='color:red'><B>Request Faild</B></span>";
+	              
+	              $("#myModalpop_data").html(errorThrown);
+	               $("#myModalpop").modal("show");
+	               setTimeout(UnblockFunction , 2000); 
+	               
+	             // blockFunction(errorThrown);
+	             // setTimeout( UnblockFunction() , 3000);
+	            //  $('#pagebody').unblock();	
+	              
+	             // $("#myModal").modal("hide");
 	             // alert("Error;");
 	          }
 	      })
+	      
+	      
+	      
+	      
 	}catch(err){
 		
 		//alert(err.value);
@@ -308,7 +346,18 @@ try{
 	  
  }
  
+function UnblockFunction(){
+	$("#myModalpop").modal("hide");
+ }
  
+ function blockFunction(responseData){
+	 
+	/*  $('#pagebody').block({ 
+         message: "<span style='color:red;font-size:16px'>"+responseData+"</span>", 
+         css: { border: '0px solid #a00' } 
+     }); */
+	 
+ }
  
  function AttendanceRequest_Month(){
 	 
@@ -2107,7 +2156,7 @@ try{
   </script>
 
 	</head>
-	<body  ng-app="myApp" ng-controller="formCtrl"  onload="disableBackButton(); noBack();">
+	<body  ng-app="myApp" id='pagebody' ng-controller="formCtrl"  onload="disableBackButton(); noBack();">
 		<section class="body">
 
 			<!-- start: header -->
@@ -2352,7 +2401,7 @@ try{
 														<td class="text-center" >{{ x.LESSHRS }}</td>
 														<td class="text-center">{{ x.DAYTYPE }}</td>
 														<td align="center"> 
-														   <input type='button' class="btn btn-primary btn-sm"  name="{{ x.INNER }}" id="{{ x.DATE }}" data-toggle="modal" data-target="#myModal" id="myBtn"onclick="ICT_Req(this);" value='Request' style='display:{{ x.DAF }}'  > 
+														   <input type='button' class="btn btn-primary btn-sm"  name="{{ x.INNER }}" id="{{ x.DATE }}" data-toggle="modal" data-target="#myModal" id="myBtn" onclick="ICT_Req(this);" value='Request' style='display:{{ x.DAF }}'  > 
 														</td> 
 														<td class="text-center"> <span  id="{{ x.DATE }}_ST" > {{ x.DAREQ }}  </span> </td> 
 													</tr>
@@ -2508,6 +2557,11 @@ try{
 							</div>
 							
 						  </div>
+						   </div>
+						   
+						    </div>
+						   </div>
+						   
 		
 		<!-- Model Box Ending -->
 		<!-- Vendor -->
@@ -2537,6 +2591,8 @@ try{
 		<!-- Examples -->
 		<script src="assets/javascripts/dashboard/examples.dashboard.js"></script>
 		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.js"></script>
+		
 <script>
 
 $('#Responce_Message_btn').keypress(function (event) {
@@ -2562,7 +2618,11 @@ $('#Responce_Message_btn').click(function () {
 });
 
 </script> 
-		
+	
+	
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+   -->	
 		<!-- <script>
 $(document).ready(function(){
     $("#myBtn").click(function(){
@@ -2571,5 +2631,47 @@ $(document).ready(function(){
 });
 </script> -->
 
+<!-- Modal -->
+
+<div class="modal fade" id="myModalpop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="vertical-alignment-helper">
+<div class="modal-dialog vertical-align-center" role="document">
+<div class="modal-content">
+<!-- <div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>
+
+<h4 class="modal-title" id="myModalLabel">Send Request</h4> -->
+
+<div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Server Response</h4>
+        </div>
+        <div class="modal-body">
+          <B><p style='color:red;font-size:16' id='myModalpop_data'>
+          
+          Please wait your request is processing ..!
+          
+          </p></B>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+      
+<!-- Please Submit in between Payroll i.e., 26-previous Month-Current Year ------   27-Current Month-Current Year -->
+<!-- </div> -->
+<!-- <div class="modal-body">
+<span> hi welcome </span>
+</div> -->
+</div>
+</div>
+</div>
+</div>
+
+      
 	</body>
 </html>

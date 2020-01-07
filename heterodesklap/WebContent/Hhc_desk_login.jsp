@@ -185,8 +185,8 @@ function isNumber(evt) {
 						<div style="margin-top:30px;"></div>
 						<form action="User_Auth_main" method="post">
 							<div class="form-group ">
-								<label class="col-sm-4">User ID</label>
-								<div class="col-sm-6">
+								<label class="col-sm-3">User ID</label>
+								<div class="col-sm-7">
 									<div class="input-group input-group-icon">
 										<input name="username" type="text" maxlength='6'  placeholder="User ID/Employee ID" id="username"class="form-control" onkeypress="return isNumber(event)"/>
 										<span class="input-group-addon">
@@ -199,9 +199,9 @@ function isNumber(evt) {
 							</div>
                              
 							<div class="form-group">
-								<label class="col-sm-4">Password</label>
+								<label class="col-sm-3">Password</label>
 								
-								<div class="col-sm-6">
+								<div class="col-sm-7">
 									<div class="input-group input-group-icon">
 										<input  type="password" placeholder="Password" name="pwd" id="pwd" onkeypress="handleKeyPress(event)"; class="form-control" />
 										<span class="input-group-addon">
@@ -213,16 +213,18 @@ function isNumber(evt) {
 								</div>
 							</div>
 
-							<div class="row">
-								<div class="col-sm-4">
+							<div class="row m_0">
+								<div class="col-sm-3">
 									<!-- <a href="#" style="padding-left:25px;">Lost Password?</a> -->
 								</div>
-								<div class="col-sm-4 text-right">
+								<div class="col-sm-7 text-right">
 								    <button type="button" onclick="pwvalidate();" class="btn btn-primary btn-block btn-flat">Sign In</button>
 									<!--<button type="submit" class="btn btn-primary btn-block visible-xs ">Sign In</button>-->
 								</div>
 							</div>
-
+                             <div class="text-center frgt_pswd">
+                             <a href='forgotpassword?Routing=forgotpwd' style='text-decoration:none;'><b>Forgot Password?</b></a>
+                             </div>
 							<div class="text-center"><span style="color:red" class="text-center" id="errmsg"><%=message %></span></div>
 
 						</form>

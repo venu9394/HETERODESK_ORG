@@ -9,6 +9,7 @@
 		<meta name="keywords" content="HETERO" />
 		<meta name="description" content="Hetero" >
 		<meta name="author" content="Hetero">
+		<link rel="icon" href="LOH.png" />
 
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -85,12 +86,24 @@
 	var formData = {id:""+name+"",flag:""+approval_flg+"",rid:""+RID+"",randomid:""+RANDOMID+"",comment:""+comments+"",User_id:""+User_id+"",User_pwd:""+User_pwd+""};
 	
 	
+	$("#myModalpop_data").html("PLease wait ...!");
+	
 	   /* var date=document.getElementById("date").value;
 	   var Subject=document.getElementById("Subject").value;
 	   var message=document.getElementById("message").value;
 		var formData = {id:""+date+"",Subject:""+Subject+"",message:""+message+""}; */
 		
 	try{
+		
+		
+		$("#myModal").modal("hide");
+		$("#myModalpop").modal("show");
+		
+		
+		$("#block").hide();
+		$("#block_1").hide();
+		
+		
 	    $.ajax({
 	    	 
 	          type: "post",
@@ -106,13 +119,35 @@
 	             
 	             try{
 	            	// alert("In Script-3");
-	              document.getElementById("Responce_Message").innerHTML=res[0];
-	              document.getElementById("Responce_Message_btn").style.display='none';
 	              
+	             //  setTimeout(UnblockFunction , 2000);
+	               //$("#auth_emp_pwd").val("");
+	               
 	              if(res[0]!="Successfully Submit."){
-	            	  document.getElementById("Responce_Message").innerHTML=errorThrown;
+	            	//  document.getElementById("Responce_Message").innerHTML=res[0];
 	 	             document.getElementById("Responce_Message_btn").style.display='';
+	 	              $("#block").show();
+		      		  $("#block_1").show();
+	 	              $("#myModalpop_data").html(res[0]);
+		              $("#myModalpop").modal("show");
+		              
+		             // setTimeout(UnblockFunction , 2000);
+		               
+		               
+	              }else{
+	            	  
+	            	  //document.getElementById("Responce_Message").innerHTML=res[0];
+		              document.getElementById("Responce_Message_btn").style.display='none';
+		              
+		              $("#myModalpop_data").html(res[0]);
+		              $("#myModalpop").modal("show");
+		             
+		              setTimeout(UnblockFunction , 3000);
+		              
+	            	  
 	              }
+	              
+	              
 	             // alert("date:"+date);
 	              //document.getElementById(""+date+"").innerHTML='Processed';
 	             // document.getElementById(date).style.display='none';
@@ -129,6 +164,15 @@
 	              console.log(errorThrown);
 	              document.getElementById("Responce_Message").innerHTML=errorThrown;
 	             document.getElementById("Responce_Message_btn").style.display='';
+	             
+	            // $("#block").show();
+	      		//  $("#block_1").show();
+	      		  
+	             $("#myModalpop_data").html(errorThrown);
+	              $("#myModalpop").modal("show");
+	             
+	             //setTimeout(UnblockFunction , 3000);
+	               
 	              //alert("Error;");
 	          }
 	      });
@@ -410,6 +454,42 @@ if(isIE){
 		</section>
 		
 	</div>
+	
+	
+	
+	
+<div class="modal fade" id="myModalpop" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="vertical-alignment-helper">
+<div class="modal-dialog vertical-align-center" role="document">
+<div class="modal-content">
+<div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Server Response</h4>
+        </div>
+        <div class="modal-body">
+          <B><p style='color:red;font-size:16' id='myModalpop_data' >
+          
+          Please wait  ..!
+          
+          </p></B>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id='block' class="btn btn-default" style='background-color:#f542aa' data-dismiss="modal" onclick="blockFunction();" >Try Again</button>
+          &nbsp; <span id='block_1'> </span>  &nbsp;
+          <button type="button" class="btn btn-default" data-dismiss="modal" style='background-color:#5a42f5' onclick='UnblockFunction()'>Close</button>
+          
+           <!--  <button type="button" class="btn btn-default" data-dismiss="modal" style='background-color:#5a42f5' onclick="setTimeout(UnblockFunction , 1000);">Close</button> -->
+            
+        </div>
+      </div>
+</div>
+</div>
+</div>
+</div>
+	
+	
+	
 		<!-- Vendor -->
 		<script src="assets/vendor/jquery/jquery.js"></script>
 		<script src="assets/vendor/bootstrap/js/bootstrap.js"></script>
@@ -431,9 +511,17 @@ if(isIE){
 
 <script>
 
+
+function UnblockFunction(){
+	//window.opener.close();
+	//$("#myModalpop").modal("hide");
+	var win = open("./login.html", "_parent");
+	win.close();
+	
+ }
+ 
 function sai(val){
-	//alert(val);
-						
+	
 	if(val=="AR"){
 		document.getElementById("late").style.display='';
 		document.getElementById("leave").style.display='none';
@@ -443,6 +531,12 @@ function sai(val){
 	}
 	
 }
+
+function blockFunction(){
+	$("#myModalpop").modal("hide");
+	$("#myModal").modal("show");
+}
+
 </script>
 		 
 		 

@@ -142,7 +142,7 @@ public class FetchAjexService extends HttpServlet {
     	   
     	   Res=null;  
     	   try {
-      			
+      			System.out.println("TODAY DATE :: " +todaydate);
       			Res=(ResultSet)DataObj.FetchData_Emp_DOB("select if(date_format('"+todaydate+"','%Y-%m-%d')=date_format(now(),'%Y-%m-%d'),0,1 ) validflag from dual ", "date&serverDateValidation", Res ,conn);
       			
       			if(Res.next()){
@@ -437,8 +437,13 @@ public class FetchAjexService extends HttpServlet {
        
     	   Res=null;
     	   try {
+    		   
+    		   System.out.println("todaydate ::" +todaydate);
    			
    			Res=(ResultSet)DataObj.FetchData_Emp_DOB("select if(date_format('"+todaydate+"','%Y-%m-%d')=date_format(now(),'%Y-%m-%d'),0,1 ) validflag from dual ", "date&serverDateValidation", Res ,conn);
+   			
+   			//Res=(ResultSet)DataObj.FetchData_Emp_DOB("select if(date_format(now(),'%Y-%m-%d')=date_format(now(),'%Y-%m-%d'),0,1 ) validflag from dual ", "date&serverDateValidation", Res ,conn);
+   	   		
    			
    			if(Res.next()){
    				

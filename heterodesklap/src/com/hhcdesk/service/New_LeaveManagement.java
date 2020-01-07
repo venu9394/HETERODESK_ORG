@@ -142,6 +142,7 @@ public class New_LeaveManagement extends HttpServlet {
 		try {
 			 //conn =DataSource_Cls.getInstance().getConnection();
 			conn=(java.sql.Connection)session.getAttribute("ConnectionObj");
+			conn.setAutoCommit(false);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -228,7 +229,11 @@ public class New_LeaveManagement extends HttpServlet {
 		
 	//	String Query=bundle_info.getString("HHCL_DESK_USER_LOGIN");
 		String message=null;
+		String LIMIT_LEAVE_ICONN_YEAR=null;
+		String LIMIT_LEAVE_ICONN_YEAR_MSG=null;
 		message=bundle_info.getString("HHCL_DESK_NEWJOINEE");
+		LIMIT_LEAVE_ICONN_YEAR=bundle_info.getString("LIMIT_LEAVE_ICONN_YEAR");
+		LIMIT_LEAVE_ICONN_YEAR_MSG=bundle_info.getString("LIMIT_LEAVE_ICONN_YEAR_MSG");
 		/*try {
 			dataSource=(DataSource)(c.getAttribute("dataSource"));
 
@@ -268,9 +273,21 @@ public class New_LeaveManagement extends HttpServlet {
         
       //orginal  StrReverse.append(" select date_format(STR_TO_DATE('"+from_date+"' ,'%d-%m-%Y'),'%Y-%m-%d') , date_format(STR_TO_DATE('"+to_date+"' ,'%d-%m-%Y'),'%Y-%m-%d'), ifnull(date_format(STR_TO_DATE('"+Hal_date+"' ,'%d-%m-%Y'),'%Y-%m-%d'),'0000-00-00') from dual ");
         
+        //LIMIT_LEAVE_ICONN_YEAR
+		/*
+		 * StrReverse.append(" select date_format(STR_TO_DATE('"
+		 * +from_date+"' ,'%d-%m-%Y'),'%Y-%m-%d') , date_format(STR_TO_DATE('"
+		 * +to_date+"' ,'%d-%m-%Y'),'%Y-%m-%d'), ifnull(date_format(STR_TO_DATE('"
+		 * +Hal_date+"' ,'%d-%m-%Y'),'%Y-%m-%d'),'0000-00-00') ");
+		 * StrReverse.append(" , if(date_format(STR_TO_DATE('"
+		 * +from_date+"' ,'%d-%m-%Y'),'%Y-%m-%d')>='2020-01-01' ,1,0) , if(date_format(STR_TO_DATE('"
+		 * +to_date+"' ,'%d-%m-%Y'),'%Y-%m-%d')>='2020-01-01' ,1,0)   from dual ");
+		 */
+        
         StrReverse.append(" select date_format(STR_TO_DATE('"+from_date+"' ,'%d-%m-%Y'),'%Y-%m-%d') , date_format(STR_TO_DATE('"+to_date+"' ,'%d-%m-%Y'),'%Y-%m-%d'), ifnull(date_format(STR_TO_DATE('"+Hal_date+"' ,'%d-%m-%Y'),'%Y-%m-%d'),'0000-00-00') ");
-        StrReverse.append(" , if(date_format(STR_TO_DATE('"+from_date+"' ,'%d-%m-%Y'),'%Y-%m-%d')>='2020-01-01' ,1,0) , if(date_format(STR_TO_DATE('"+to_date+"' ,'%d-%m-%Y'),'%Y-%m-%d')>='2020-01-01' ,1,0)   from dual ");
+        StrReverse.append(" , if(date_format(STR_TO_DATE('"+from_date+"' ,'%d-%m-%Y'),'%Y-%m-%d')>='"+LIMIT_LEAVE_ICONN_YEAR+"' ,1,0) , if(date_format(STR_TO_DATE('"+to_date+"' ,'%d-%m-%Y'),'%Y-%m-%d')>='"+LIMIT_LEAVE_ICONN_YEAR+"' ,1,0)   from dual ");
          
+        
  		try {
  			  Res=(ResultSet)DataObj.FetchData_Emp_DOB(StrReverse.toString(), "Leave_Quota", Res ,conn);
  			if(Res.next()){ 
@@ -439,7 +456,7 @@ public class New_LeaveManagement extends HttpServlet {
 						+ "VALUES(?,15,?,0.0,0.0,0.0,0.0,1,90,4,0,0.0,1001,0,0,'OP')");
 				PS_lop.setString(1,EMPLOYEEID_LOP);
 				//PS_lop.setString(2,LOP_ydate);
-				PS_lop.setString(2,"Fy_Year"); // for year changes
+				PS_lop.setString(2,""+Fy_Year+""); // for year changes
 				lopins_count= PS_lop.executeUpdate();
 				System.out.println("lopins_count" +lopins_count);
 				if(lopins_count>0){
@@ -1639,17 +1656,22 @@ try{
 		    int [] Batchup=ps_SingleDates.executeBatch();
 				System.out.println(Batchup + "add Batch Count::"+count);
 				System.out.println(Batchup + "add Batch length::"+Batchup.length);
-			if(count>0 && count1>0 && count2>0){
+			if(count>0 && count1>0 && count2>0 && Batchup.length>0){
 				Atten_Req_Message="Your leave successfully processed..";
 				try{
 					conn.commit();
 				   }catch(Exception erd){
 					  System.out.println("Exception at ERD" +erd); 
+								/*
+								 * conn.rollback();
+								 * Atten_Req_Message="Your Leave process failed please try again/contact system admin.."
+								 * ;
+								 */
 				   }
 					
 				}else{
 					conn.rollback();
-					Atten_Req_Message="Your Leave process failed please contact system admin..";
+					Atten_Req_Message="Your Leave process failed please  try again/contact system admin..";
 				}
 			}
 			catch (Exception e2)
@@ -1741,6 +1763,7 @@ try{
 			}else if(newyearflag_t==1 ||newyearflag_f==1){ // add for new year message
 				
 				Atten_Req_Message=" Leaves are not enabled for Year 2020 " ;
+				Atten_Req_Message=LIMIT_LEAVE_ICONN_YEAR_MSG;
 				
 			}else{
 				Atten_Req_Message="Authentication failed please Re-login/contact admin..!";
@@ -1755,7 +1778,14 @@ try{
     	  Atten_Req_Message="invalid credientails please relogin/contact admin"; 
       }finally{
 
-
+               try {
+				conn.commit();
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+               
+               
 			try {
 				/*if(conn!=null){
 					conn.close();

@@ -487,6 +487,10 @@ app.controller('formCtrl', function($scope) {
 										<span class="font-bold">Profile</span>
 									  </a>
 									</li>
+									
+									
+									
+									
 									<li>
 									  <a href="PayslipDownload">
 										<i class="fa fa-download"></i>

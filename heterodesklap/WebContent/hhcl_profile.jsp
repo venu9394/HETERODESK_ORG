@@ -327,6 +327,7 @@ app.controller('formCtrl', function($scope) {
 								<div class="panel panel-danger" >
 									<div class="panel-heading1">
 										<span><b>My Info</b></span>
+										
 								
 									</div>
 									<div class="panel-body">
